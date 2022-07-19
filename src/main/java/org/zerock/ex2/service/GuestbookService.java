@@ -10,9 +10,13 @@ public interface GuestbookService {
 
     PageResponseDTO<GuestBookDTO, Guestbook> getList(PageRequestDTO requestDTO);
 
+    PageResponseDTO<GuestBookDTO, Guestbook> getSearch(PageRequestDTO requestDTO);
+
     GuestBookDTO read(Long gno);
 
     void modify(GuestBookDTO dto);
 
     void remove(Long gno);
+
+
 }

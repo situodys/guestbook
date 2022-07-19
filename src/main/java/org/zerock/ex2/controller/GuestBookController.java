@@ -26,10 +26,19 @@ public class GuestBookController {
         return "redirect:/guestbook/list";
     }
 
-    @GetMapping({"/list"})
+    @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
         log.info("list..........." + pageRequestDTO);
         model.addAttribute("result", service.getList(pageRequestDTO));
+    }
+
+    @GetMapping("/search")
+    public String search(PageRequestDTO pageRequestDTO, Model model,RedirectAttributes redirectAttributes) {
+        log.info("search..........." + pageRequestDTO);
+        model.addAttribute("result", service.getSearch(pageRequestDTO));
+        redirectAttributes.addFlashAttribute("msg", gno);
+        return "redirect:guestbook/list";
+
     }
 
     @GetMapping("/register")

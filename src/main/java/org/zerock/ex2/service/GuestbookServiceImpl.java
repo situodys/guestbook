@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.zerock.ex2.dto.GuestBookDTO;
 import org.zerock.ex2.dto.PageRequestDTO;
 import org.zerock.ex2.dto.PageResponseDTO;
+import org.zerock.ex2.dto.SearchType;
 import org.zerock.ex2.entity.Guestbook;
 import org.zerock.ex2.repository.GuestbookRepository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -64,5 +66,28 @@ public class GuestbookServiceImpl implements GuestbookService {
     @Override
     public void remove(Long gno) {
         repository.deleteById(gno);
+    }
+
+    @Override
+    public PageResponseDTO<GuestBookDTO, Guestbook> getSearch(PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("gno").descending());
+        requestDTO.setType(new ArrayList<>());
+
+        if (requestDTO.getTypeSignal().contains("t")) {
+            requestDTO.getType().add(SearchType.Title);
+        }
+        if (requestDTO.getTypeSignal().contains("c")) {
+            requestDTO.getType().add(SearchType.Content);
+        }
+        if (requestDTO.getTypeSignal().contains("w")) {
+            requestDTO.getType().add(SearchType.Writer);
+        }
+
+        Page<Guestbook> result = repository.searchAll(requestDTO,pageable);
+
+        Function<Guestbook, GuestBookDTO> fn = (entity -> entity.toDTO());
+
+        return new PageResponseDTO<>(result, fn);
+
     }
 }
