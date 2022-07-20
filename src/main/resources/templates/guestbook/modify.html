@@ -31,7 +31,9 @@
                 <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
             </div>
 
-            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+            <input type="hidden" name="type" th:value="${pageRequestDTO.type}">
+            <input type="hidden" name="keyword" th:value="${pageRequestDTO.keyword}">
         </form>
 
         <button type="button" class="btn btn-primary modifyBtn">Modify</button>
@@ -61,9 +63,14 @@
             });
 
             $(".listBtn").click(function (){
-                let pageInfo = $("input[name='page']");
+                let page = $("input[name='page']");
+                let type = $("input[name='type']");
+                let keyword = $("input[name='keyword']");
                 actionForm.empty();
-                actionForm.append(pageInfo);
+                actionForm.append(page);
+                actionForm.append(type);
+                actionForm.append(keyword);
+
                 actionForm
                     .attr("action", "/guestbook/list")
                     .attr("method", "get");

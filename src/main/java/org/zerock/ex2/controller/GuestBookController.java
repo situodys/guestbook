@@ -32,15 +32,6 @@ public class GuestBookController {
         model.addAttribute("result", service.getList(pageRequestDTO));
     }
 
-    @GetMapping("/search")
-    public String search(PageRequestDTO pageRequestDTO, Model model,RedirectAttributes redirectAttributes) {
-        log.info("search..........." + pageRequestDTO);
-        model.addAttribute("result", service.getSearch(pageRequestDTO));
-        redirectAttributes.addFlashAttribute("msg", gno);
-        return "redirect:guestbook/list";
-
-    }
-
     @GetMapping("/register")
     public void register() {
         log.info("register get...");
@@ -58,7 +49,7 @@ public class GuestBookController {
 
     //상세 조회
     @GetMapping({"/read", "/modify"})
-    public void read(Long gno, @ModelAttribute("requestDTO")PageRequestDTO pageRequestDTO, Model model) {
+    public void read(Long gno, @ModelAttribute("pageRequestDTO")PageRequestDTO pageRequestDTO, Model model) {
         log.info("gno: " + gno);
 
         GuestBookDTO dto = service.read(gno);
@@ -86,6 +77,9 @@ public class GuestBookController {
         service.modify(dto);
 
         redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
+
         redirectAttributes.addAttribute("gno", dto.getGno());
 
         return "redirect:/guestbook/read";

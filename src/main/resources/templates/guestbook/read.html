@@ -30,11 +30,11 @@
             <input type="text" name="modDate" class="form-control" th:value="${#temporals.format(dto.modDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
         </div>
 
-        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}">
+        <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${pageRequestDTO.page}, type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
 
-        <a th:href="@{/guestbook/list(page=${requestDTO.page})}">
+        <a th:href="@{/guestbook/list(page=${pageRequestDTO.page}, type=${pageRequestDTO.type},keyword=${pageRequestDTO.keyword})}">
             <button type="button" class="btn btn-primary">List</button>
         </a>
 

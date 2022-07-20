@@ -7,9 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.zerock.ex2.dto.GuestBookDTO;
 import org.zerock.ex2.dto.PageRequestDTO;
+import org.zerock.ex2.dto.PageResponseDTO;
 import org.zerock.ex2.dto.SearchType;
 import org.zerock.ex2.entity.Guestbook;
+import org.zerock.ex2.service.GuestbookService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +24,9 @@ public class GuestBookRepositoryTests {
 
     @Autowired
     private GuestbookRepository guestbookRepository;
+
+    @Autowired
+    private GuestbookService service;
 
     @Autowired
     private GuestbookRepositorySupport guestbookRepositorySupport;
@@ -70,11 +76,11 @@ public class GuestBookRepositoryTests {
     @Test
     public void searchTest() throws Exception {
         //give
-        SearchType[] searchTypes = {SearchType.Title, SearchType.Content};
+
         PageRequestDTO request = PageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .type(Arrays.asList(searchTypes))
+                .type("tc")
                 .keyword("16")
                 .build();
 
@@ -82,11 +88,11 @@ public class GuestBookRepositoryTests {
 
 
         //when
-        Page<Guestbook> guestbooks = guestbookRepository.searchAll(request, pageable);
+        PageResponseDTO<GuestBookDTO, Guestbook> list = service.getList(request);
         //then
 
-        for (Guestbook guestbook : guestbooks) {
-            System.out.println(guestbook);
+        for (GuestBookDTO guestBookDTO : list.getDtoList()) {
+            System.out.println(guestBookDTO);
         }
 
     }

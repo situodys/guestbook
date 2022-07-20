@@ -16,8 +16,8 @@ import java.util.List;
 public class PageRequestDTO {
     private int page;
     private int size;
-    private String typeSignal;
-    private List<SearchType> type;
+    private String type;
+    //private List<SearchType> type;
     private String keyword;
 
     public PageRequestDTO() {

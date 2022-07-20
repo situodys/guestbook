@@ -9,6 +9,4 @@ import java.util.List;
 
 public interface GuestbookRepositoryCustom {
     List<Guestbook> findByWriter(String writer);
-
-    Page<Guestbook> searchAll(PageRequestDTO pageRequestDTO, Pageable pageable);
 }
